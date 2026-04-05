@@ -1,30 +1,40 @@
-// import clientPromise from '@/lib/mongodb'
-// import { ObjectId }  from 'mongodb'
+import clientPromise from '@/lib/mongodb'
+import { ObjectId } from 'mongodb'
+import { NextResponse } from 'next/server'
 
-// export async function GET(request, { params }) {
-//   try {
-//     const { id } = params
+export async function GET(request, { params }) {
+  const { id } = params
 
-//     // Validate that id is a well-formed ObjectId before hitting the DB
-//     if (!ObjectId.isValid(id)) {
-//       return Response.json({ error: 'Invalid ID format' }, { status: 400 })
-//     }
+  if (!id) {
+    return NextResponse.json({ error: 'id is required.' }, { status: 400 })
+  }
 
-//     const client = await clientPromise
-//     const db     = client.db('armorclaw')
+  // Validate MongoDB ObjectId format before querying
+  if (!ObjectId.isValid(id)) {
+    return NextResponse.json({ error: `"${id}" is not a valid record ID.` }, { status: 400 })
+  }
 
-//     const doc = await db
-//       .collection('ledger')
-//       .findOne({ _id: new ObjectId(id) })
+  try {
+    const client = await clientPromise
+    const db = client.db('armorclaw')
 
-//     if (!doc) {
-//       return Response.json({ error: 'Record not found' }, { status: 404 })
-//     }
+    const doc = await db
+      .collection('ledger')
+      .findOne({ _id: new ObjectId(id) })
 
-//     // Serialize ObjectId → string
-//     return Response.json({ ...doc, _id: doc._id.toString() })
-//   } catch (err) {
-//     console.error('[GET /api/ledger/[id]]', err)
-//     return Response.json({ error: 'Failed to fetch record' }, { status: 500 })
-//   }
-// }
+    if (!doc) {
+      return NextResponse.json({ error: 'Record not found.' }, { status: 404 })
+    }
+
+    return NextResponse.json({
+      ...doc,
+      _id: doc._id.toString(),
+    })
+  } catch (err) {
+    console.error(`[GET /api/ledger/${id}]`, err)
+    return NextResponse.json(
+      { error: 'Failed to fetch record.' },
+      { status: 500 }
+    )
+  }
+}
