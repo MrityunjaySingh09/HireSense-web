@@ -4,10 +4,10 @@ import { Github, Linkedin } from 'lucide-react'
 import TopBar from '@/components/layout/TopBar'
 
 const TEAM = [
-  { initials: 'S', name: 'Soumyak', role: '', bio: 'Building autonomous systems that bring truth to hiring through zero-trust protocols.' },
-  { initials: 'IS', name: 'Ishan', role: '',  bio: 'Passionate about building products that solve real problems. Loves pixel-perfect UI.' },
-  { initials: 'AK', name: 'Akshat', role: '',   bio: 'FastAPI and Python specialist. Believes in systems that tell the truth.' },
-  { initials: 'MS', name: 'Mrityunjay', role: '',        bio: 'LangChain and embeddings wizard. Turns raw text into verified signals.' },
+  { initials: 'S', name: 'Soumyak', role: '', bio: '' },
+  { initials: 'IS', name: 'Ishan', role: '',  bio: '' },
+  { initials: 'AK', name: 'Akshat', role: '',   bio: '' },
+  { initials: 'MS', name: 'Mrityunjay', role: '', bio: '' },
 ]
 
 const TECH = []
